@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+/* Apple-like base defaults */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Inter, sans-serif;
+  background:
+    radial-gradient(ellipse 120% 75% at 5%   0%,  rgba(0, 113, 227, 0.30) 0%, transparent 52%),
+    radial-gradient(ellipse 80%  65% at 98%  5%,  rgba(130, 50, 255, 0.22) 0%, transparent 52%),
+    radial-gradient(ellipse 90%  65% at 50%  108%,rgba(0, 185, 120, 0.18) 0%, transparent 52%),
+    #d8e4f5;
+  background-attachment: fixed; /* disabled on mobile — see below */
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fix iOS Safari background-attachment: fixed bug */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
+/* iOS liquid glass */
+.glass {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(56px) saturate(200%);
+  -webkit-backdrop-filter: blur(56px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.05),
+    inset 0 0.5px 0 rgba(255, 255, 255, 0.70);
+}
+
+/* WhyUs reveal animation */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
