@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { to: '/why-us',  label: 'Why Kingdom Sites' },
 ]
 
+// Defined once at module level so the object reference is stable across renders.
 const GLASS_HEADER = {
   background: 'rgba(220, 235, 255, 0.07)',
   backdropFilter: 'blur(40px) saturate(180%)',
@@ -22,6 +23,7 @@ const GLASS_HEADER = {
 
 function MenuIcon() {
   return (
+    // aria-hidden: this icon is decorative — the button has an aria-label instead.
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
       <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
     </svg>
@@ -44,7 +46,8 @@ function Header() {
   const [scrolled, setScrolled] = useState(false)
   const headerRef               = useRef(null)
 
-  // detect scroll + dark section overlap
+  // Detects when the header scrolls over a dark section (data-dark-section attribute)
+  // so we can flip nav text to white for contrast/readability.
   useEffect(() => {
     const check = () => {
       setScrolled(window.scrollY > 8)
@@ -57,16 +60,21 @@ function Header() {
       }
       setDarkBg(over)
     }
+    // passive: true — tells the browser this listener won't call preventDefault(),
+    // allowing scroll to be handled on a separate thread for better performance.
     window.addEventListener('scroll', check, { passive: true })
     check()
     return () => window.removeEventListener('scroll', check)
   }, [location.pathname])
 
+  // Subscribe to Supabase auth state so the header updates immediately
+  // when the user logs in or out on any tab — no page refresh needed.
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null))
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null)
     })
+    // Clean up the auth listener when the component unmounts to prevent memory leaks.
     return () => subscription.unsubscribe()
   }, [])
 
@@ -81,7 +89,8 @@ function Header() {
 
   return (
     <header ref={headerRef} className="sticky top-0 z-50">
-      {/* Main bar */}
+      {/* Main bar — glass effect only kicks in after user scrolls 8px,
+          so the top of the page feels clean and open. */}
       <div
         className="transition-all duration-300"
         style={{
@@ -109,7 +118,9 @@ function Header() {
             </nav>
           </div>
 
-          {/* Right: desktop buttons */}
+          {/* Right: desktop buttons.
+              - Dashboard button is hidden when already on /dashboard (no redundant link).
+              - "Get Started" is hidden when logged in (already have an account). */}
           <div className="hidden sm:flex items-center gap-2">
             {!isActive('/dashboard') && (
               <Link
@@ -129,7 +140,7 @@ function Header() {
             )}
           </div>
 
-          {/* Mobile: hamburger */}
+          {/* Mobile: hamburger — aria-label describes the action for screen readers. */}
           <button
             className={`sm:hidden flex h-9 w-9 items-center justify-center rounded-2xl border border-white/30 bg-white/20 backdrop-blur-sm transition-colors duration-300 hover:bg-white/35 ${burgerColor}`}
             onClick={() => setMenuOpen((o) => !o)}
@@ -140,7 +151,7 @@ function Header() {
         </div>
       </div>
 
-      {/* Mobile slide-down menu */}
+      {/* Mobile slide-down menu — same auth-aware logic as desktop. */}
       {menuOpen && (
         <div
           className="sm:hidden"
@@ -151,6 +162,7 @@ function Header() {
               {NAV_LINKS.map(({ to, label }) => (
                 <Link
                   key={to} to={to}
+                  // Close the menu on navigation so it doesn't stay open on the new page.
                   onClick={() => setMenuOpen(false)}
                   className={`rounded-2xl px-4 py-3 text-sm font-medium transition ${
                     isActive(to)
@@ -214,11 +226,15 @@ function ContactModal({ onClose }) {
   const [topic, setTopic]           = useState(TOPICS[0])
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted]   = useState(false)
+  // pending tracks whether a form submission is in-flight so we ignore
+  // the iframe's initial onLoad fire (which happens on mount, not on submit).
   const [pending, setPending]       = useState(false)
-  const formRef  = useRef(null)
+  const formRef   = useRef(null)
   const iframeRef = useRef(null)
 
   return (
+    // Clicking the backdrop (the darkened overlay) closes the modal.
+    // e.target === e.currentTarget ensures clicks on the modal card itself don't close it.
     <div
       className="fixed inset-0 z-[100] flex items-end justify-end p-4 sm:items-center sm:justify-center"
       style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(6px)' }}
@@ -246,6 +262,8 @@ function ContactModal({ onClose }) {
           </button>
         </div>
 
+        {/* Hidden iframe — form submits into this so the page doesn't navigate away.
+            The onLoad fires when formsubmit.co responds, telling us the send succeeded. */}
         <iframe ref={iframeRef} name="contact_modal_iframe" title="contact-modal" className="hidden"
           onLoad={() => {
             if (!pending) return
@@ -263,6 +281,9 @@ function ContactModal({ onClose }) {
         ) : (
           <form
             ref={formRef}
+            // formsubmit.co is a no-backend email relay — it forwards POST data to our inbox.
+            // The email address here is the recipient. Captcha is disabled because
+            // the honeypot field below catches bots without annoying real users.
             action="https://formsubmit.co/untilnpl@gmail.com"
             method="POST"
             target="contact_modal_iframe"
@@ -271,7 +292,10 @@ function ContactModal({ onClose }) {
           >
             <input type="hidden" name="_subject" value={`New inquiry: ${topic}`} />
             <input type="hidden" name="_template" value="table" />
+            {/* Captcha off — we use a honeypot instead (see _honey field below). */}
             <input type="hidden" name="_captcha" value="false" />
+            {/* Honeypot: hidden from real users but bots fill it in automatically.
+                formsubmit.co discards any submission where _honey is non-empty. */}
             <input type="text" name="_honey" className="hidden" tabIndex="-1" autoComplete="off" />
             <input type="hidden" name="topic" value={topic} />
 
@@ -284,6 +308,7 @@ function ContactModal({ onClose }) {
                       ? 'border-[#0071e3]/30 bg-[#0071e3]/10 text-white'
                       : 'border-white/30 bg-white/15 text-white/70 hover:bg-white/25'
                   }`}>
+                    {/* sr-only hides the native radio input visually while keeping it accessible. */}
                     <input type="radio" name="topic_select" value={t} checked={topic === t}
                       onChange={() => setTopic(t)} className="sr-only" />
                     <span className={`h-2 w-2 shrink-0 rounded-full ${topic === t ? 'bg-[#0071e3]' : 'bg-[#1d1d1f]/20'}`} />
@@ -295,6 +320,7 @@ function ContactModal({ onClose }) {
 
             <label className="grid gap-1.5 text-sm">
               <span className="font-medium text-[#1d1d1f]/75">Name</span>
+              {/* autoComplete hints help password managers and browsers fill the form safely. */}
               <input required name="name" type="text" placeholder="Your name" autoComplete="name"
                 className="h-11 rounded-2xl border border-white/30 bg-white/20 px-4 text-sm backdrop-blur-sm outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4 placeholder:text-[#1d1d1f]/35" />
             </label>
@@ -311,6 +337,7 @@ function ContactModal({ onClose }) {
                 className="w-full resize-none rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-sm backdrop-blur-sm outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4 placeholder:text-[#1d1d1f]/35" />
             </label>
 
+            {/* disabled during submission prevents double-sends. */}
             <button type="submit" disabled={submitting}
               className="h-11 rounded-full bg-[#0071e3] text-sm font-semibold text-white shadow-sm transition hover:brightness-95 disabled:opacity-60"
             >
@@ -328,6 +355,9 @@ function AppShell() {
   const location = useLocation()
   const onDashboard = location.pathname === '/dashboard'
 
+  // Listen for a custom DOM event dispatched by any page component.
+  // This avoids prop drilling or global state just to open a modal —
+  // any button anywhere can do: document.dispatchEvent(new CustomEvent('open-contact-modal'))
   useEffect(() => {
     const handler = () => setContactOpen(true)
     document.addEventListener('open-contact-modal', handler)
@@ -343,13 +373,14 @@ function AppShell() {
           <Route path="/about"     element={<About />} />
           <Route path="/mission"   element={<Mission />} />
           <Route path="/login"     element={<Login />} />
+          {/* /dashboard is protected — Dashboard.jsx redirects to /login if no session. */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/why-us"    element={<WhyUs />} />
         </Routes>
       </main>
       <Footer />
 
-      {/* Floating contact button — hidden on dashboard */}
+      {/* Floating contact button — hidden on dashboard so it doesn't overlap the portal UI. */}
       {!onDashboard && (
         <button
           onClick={() => setContactOpen(true)}
@@ -370,6 +401,8 @@ function AppShell() {
 
 export default function App() {
   return (
+    // BrowserRouter enables client-side routing. vercel.json rewrites all paths
+    // to index.html so deep links (e.g. /dashboard) work on hard refresh.
     <BrowserRouter>
       <AppShell />
     </BrowserRouter>

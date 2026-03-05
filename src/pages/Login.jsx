@@ -19,9 +19,12 @@ export default function Login() {
   const inputRef = useRef(null)
 
   useEffect(() => {
+    // If the user already has a valid session (e.g. navigated to /login while logged in),
+    // redirect them straight to the dashboard — no need to sign in again.
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) navigate('/dashboard', { replace: true })
     })
+    // Auto-focus the email input on mount for better UX — users can start typing immediately.
     inputRef.current?.focus()
   }, [navigate])
 
@@ -29,6 +32,9 @@ export default function Login() {
     e.preventDefault()
     setError('')
     setSending(true)
+    // Magic link (OTP) auth — Supabase emails a one-time sign-in link.
+    // No passwords are ever stored. emailRedirectTo sends the user to /dashboard
+    // after they click the link, wherever they open it (even a different device).
     const { error: err } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: window.location.origin + '/dashboard' },

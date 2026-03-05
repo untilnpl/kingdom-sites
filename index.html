@@ -2,31 +2,55 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- Custom favicon — replace /ks.svg with your own brand mark any time. -->
     <link rel="icon" type="image/svg+xml" href="/ks.svg" />
+    <!-- viewport meta is required for mobile-responsive layout.
+         initial-scale=1.0 prevents iOS from auto-zooming on load. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kingdom Sites</title>
+
+    <!-- Primary SEO description — shown in Google search results under the page title. -->
     <meta
       name="description"
       content="Professional Websites. Kingdom Mindset. American-standard development at a $499 flat rate—supporting mission work in South Asia."
     />
+
+    <!-- Open Graph tags — control how the link preview looks when shared on
+         Facebook, iMessage, Slack, LinkedIn, etc. -->
     <meta property="og:title" content="Kingdom Sites — $499 Church Websites" />
-    <meta property="og:description" content="American-standard church websites at an unbeatable price. Supporting mission work in Bangladesh." />
+    <meta property="og:description" content="American-standard church websites at an unbeatable price. Supporting mission work in South Asia." />
     <meta property="og:image" content="https://kingdom-sites.com/images/couple.jpeg" />
     <meta property="og:url" content="https://kingdom-sites.com" />
     <meta property="og:type" content="website" />
+
+    <!-- Twitter card — tells Twitter to show a large image preview instead of a small icon. -->
     <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Preconnect establishes the TCP/TLS connection to Google Fonts early
+         so the font request is faster when it fires. crossorigin is required
+         for the fonts.gstatic.com CDN (different origin than fonts.googleapis.com). -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Non-blocking font load: preload fetches the CSS without blocking render.
+         The onload trick swaps rel to stylesheet once it's ready, so the font
+         loads asynchronously and never delays First Contentful Paint. -->
     <link rel="preload" as="style"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       onload="this.onload=null;this.rel='stylesheet'" />
+
+    <!-- Fallback for users with JavaScript disabled — loads the font synchronously
+         (blocking) since the async trick above requires JS. -->
     <noscript>
       <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
     </noscript>
   </head>
   <body>
+    <!-- React mounts the entire app into this single div. -->
     <div id="root"></div>
+    <!-- type="module" enables ES module imports (import/export syntax) in the browser.
+         Vite replaces this with optimized, hashed asset URLs on production build. -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

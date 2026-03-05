@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase.js'
 import OnboardingModal from '../components/OnboardingModal.jsx'
 
+// SECURITY NOTE: This client-side check only controls which UI is rendered.
+// Actual data access is enforced server-side by Supabase Row-Level Security (RLS).
+// The admin RLS policy on the 'profiles' and 'projects' tables uses:
+//   (auth.jwt() ->> 'email') = 'untilnpl@gmail.com'
+// So even if someone spoofed this check in the browser, Supabase would
+// return empty data for any non-admin user. Defense in depth.
 const ADMIN_EMAIL = 'untilnpl@gmail.com'
 
 const STATUS = {
@@ -310,13 +316,19 @@ export default function Dashboard() {
         return
       }
 
+      // Fetch project and profile in parallel to minimize load time.
+      // maybeSingle() returns null (not an error) when no row exists,
+      // which is the expected case for new users.
       const [{ data: proj }, { data: prof, error: profErr }] = await Promise.all([
         supabase.from('projects').select('*').eq('client_email', u.email).maybeSingle(),
         supabase.from('profiles').select('*').eq('id', u.id).maybeSingle(),
       ])
       setProject(proj)
       setProfile(prof)
-      // Only show onboarding if we successfully confirmed no profile exists
+      // Only show onboarding if we're confident no profile exists.
+      // We check !profErr first — if there was a network error, profErr is set
+      // and prof is null, but that doesn't mean they need onboarding.
+      // Without this guard, a flaky connection would incorrectly trigger onboarding.
       if (!profErr && (!prof || !prof.onboarding_complete)) setShowOnboarding(true)
       setLoading(false)
     })

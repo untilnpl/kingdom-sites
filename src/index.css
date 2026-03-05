@@ -1,42 +1,56 @@
 @import "tailwindcss";
 
-/* Apple-like base defaults */
+/* Smooth scrolling for anchor links (e.g. #contact, #value) */
 html {
   scroll-behavior: smooth;
 }
 
 body {
   font-family: Inter, sans-serif;
+  /* Multi-layer radial gradient gives the page its signature blue/purple/green
+     ambient light feel without any images — pure CSS, zero extra HTTP requests. */
   background:
     radial-gradient(ellipse 120% 75% at 5%   0%,  rgba(0, 113, 227, 0.30) 0%, transparent 52%),
     radial-gradient(ellipse 80%  65% at 98%  5%,  rgba(130, 50, 255, 0.22) 0%, transparent 52%),
     radial-gradient(ellipse 90%  65% at 50%  108%,rgba(0, 185, 120, 0.18) 0%, transparent 52%),
     #d8e4f5;
-  background-attachment: fixed; /* disabled on mobile — see below */
+  /* background-attachment: fixed keeps the gradient stationary while content scrolls,
+     creating a parallax depth effect on desktop. */
+  background-attachment: fixed;
   color: #1d1d1f;
+  /* Antialiasing makes Inter render crisper on macOS/iOS retina displays. */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fix iOS Safari background-attachment: fixed bug */
+/* iOS Safari has a long-standing bug where background-attachment: fixed causes
+   the background to flicker or disappear entirely during scroll on mobile.
+   Switching to scroll on small screens fixes it while keeping the desktop effect. */
 @media (max-width: 768px) {
   body {
     background-attachment: scroll;
   }
 }
 
-/* iOS liquid glass */
+/* iOS liquid glass effect — used on cards throughout the site.
+   backdrop-filter blurs and saturates whatever is behind the element,
+   creating the frosted glass look. The inset box-shadow adds a subtle
+   top highlight that sells the glass illusion. */
 .glass {
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(56px) saturate(200%);
-  -webkit-backdrop-filter: blur(56px) saturate(200%);
+  -webkit-backdrop-filter: blur(56px) saturate(200%); /* Safari prefix required */
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow:
     0 4px 24px rgba(0, 0, 0, 0.05),
     inset 0 0.5px 0 rgba(255, 255, 255, 0.70);
 }
 
-/* WhyUs reveal animation */
+/* Scroll-reveal animation for WhyUs page cards.
+   Cards start invisible and slightly shifted down; an IntersectionObserver
+   in WhyUs.jsx adds the .revealed class when the card enters the viewport,
+   triggering this transition. transitionDelay is set per-card via inline style
+   to stagger the animations. */
 .reveal-card {
   opacity: 0;
   transform: translateY(32px);
@@ -47,6 +61,8 @@ body {
   transform: translateY(0);
 }
 
+/* Infinite horizontal marquee — used for logo/testimonial ticker strips.
+   The track is duplicated in the HTML so the seam is invisible when it loops. */
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -56,6 +72,7 @@ body {
   animation: marquee 40s linear infinite;
 }
 
+/* Pause on hover so users can read the content. */
 .animate-marquee:hover {
   animation-play-state: paused;
 }
