@@ -20,13 +20,13 @@ function RevealCard({ children, className = '', delay = 0 }) {
   return (
     <div
       ref={ref}
-      className={`reveal-card w-full rounded-3xl p-6 sm:p-7 ${className}`}
+      className={`reveal-card w-full rounded-2xl p-6 sm:p-7 ${className}`}
       style={{
-        background: 'rgba(255,255,255,0.12)',
-        backdropFilter: 'blur(56px) saturate(200%)',
-        WebkitBackdropFilter: 'blur(56px) saturate(200%)',
-        border: '1px solid rgba(255,255,255,0.22)',
-        boxShadow: '0 4px 24px rgba(0,0,0,0.05), inset 0 0.5px 0 rgba(255,255,255,0.70)',
+        background: 'rgba(255,255,255,0.55)',
+        backdropFilter: 'blur(24px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
         transitionDelay: `${delay}ms`,
         boxSizing: 'border-box',
       }}
@@ -41,19 +41,19 @@ function StatCard({ value, label, delay }) {
   return (
     <div
       ref={ref}
-      className="reveal-card w-full rounded-3xl p-5 text-center"
+      className="reveal-card w-full rounded-2xl p-5 text-center"
       style={{
-        background: 'rgba(240,112,32,0.10)',
-        backdropFilter: 'blur(48px) saturate(180%)',
-        WebkitBackdropFilter: 'blur(48px) saturate(180%)',
-        border: '1px solid rgba(240,112,32,0.22)',
-        boxShadow: 'inset 0 0.5px 0 rgba(255,255,255,0.75)',
+        background: 'rgba(255,255,255,0.55)',
+        backdropFilter: 'blur(24px) saturate(140%)',
+        WebkitBackdropFilter: 'blur(24px) saturate(140%)',
+        border: '1px solid rgba(0,0,0,0.06)',
+        boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
         transitionDelay: `${delay}ms`,
         boxSizing: 'border-box',
       }}
     >
-      <p className="text-2xl font-semibold tracking-tight text-[#f07020] sm:text-3xl">{value}</p>
-      <p className="mt-1 text-xs leading-snug text-[#1d1d1f]/65 sm:text-sm">{label}</p>
+      <p className="text-2xl font-semibold tracking-tight text-[#0071e3] sm:text-3xl">{value}</p>
+      <p className="mt-1 text-xs leading-snug text-[#1d1d1f]/55 sm:text-sm">{label}</p>
     </div>
   )
 }
@@ -82,14 +82,14 @@ export default function WhyUs() {
       {/* ── Hero ── */}
       <section ref={heroRef} className="mx-auto max-w-6xl px-4 pb-12 pt-14 sm:px-6 sm:pb-20 sm:pt-24">
         <div ref={heroInnerRef} style={{ willChange: 'transform' }}>
-          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/30 px-3 py-1 text-xs font-medium text-[#1d1d1f]/75 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#f07020]" />
+          <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/60 px-3 py-1 text-xs font-medium text-[#1d1d1f]/60 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#0071e3]" />
             Why Kingdom Sites
           </p>
           <h1 className="max-w-3xl text-balance text-3xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
             Your church deserves a website that works as hard as your ministry.
           </h1>
-          <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#1d1d1f]/65">
+          <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#1d1d1f]/55">
             First impressions often happen online. A clear, fast, functional website can enable seekers to find you and learn more about your church.
           </p>
         </div>
@@ -98,10 +98,10 @@ export default function WhyUs() {
       {/* ── Stats ── */}
       <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6 sm:pb-20">
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatCard value="81%"  label="People research a church online before visiting"  delay={0}   />
-          <StatCard value="$499" label="Flat rate — or overhaul. No surprises, no fees."     delay={80}  />
-          <StatCard value="$50"  label="Per month — unlimited updates & personal IT. No need for squarespace or wix, just 100% custom sites. I take care of the hosting and maintenance."      delay={160} />
-          <StatCard value="100%" label="Focused on American culture while staying gospel centered"   delay={240} />
+          <StatCard value="81%"  label="of people research a church online before visiting"  delay={0}   />
+          <StatCard value="$499" label="flat rate build — or overhaul. No surprises."         delay={80}  />
+          <StatCard value="$50"  label="per month — unlimited updates, hosting & maintenance" delay={160} />
+          <StatCard value="100%" label="focused on American culture, gospel centered"          delay={240} />
         </div>
       </section>
 
@@ -111,11 +111,11 @@ export default function WhyUs() {
           <h2 className="mb-4 text-xl font-semibold tracking-tight sm:text-2xl lg:text-3xl">
             Why a quality website matters for your church.
           </h2>
-          <p className="mb-3 text-sm leading-relaxed text-[#1d1d1f]/68">
+          <p className="mb-3 text-sm leading-relaxed text-[#1d1d1f]/60">
             Most church websites were built years ago, load slowly, and look dated on mobile.
             That matters — because most visitors decide whether to show up based on the statement of faith and your location. It is imperative you have a quality, fast website. In fact even when I have looked for churches in the past when I am traveling, if their website is not clear on location, time, and statement of faith — or if it is so buggy I can't use it I will look for a different church.
           </p>
-          <p className="mb-6 text-sm leading-relaxed text-[#1d1d1f]/68">
+          <p className="mb-6 text-sm leading-relaxed text-[#1d1d1f]/60">
             A well-built site communicates that your church is alive, organized, and welcoming.
             It removes friction for new families, makes your service times instantly findable,
             and gives your ministry the professional credibility it deserves.
@@ -128,11 +128,11 @@ export default function WhyUs() {
             ].map((item) => (
               <div
                 key={item.title}
-                className="min-w-0 rounded-2xl p-4"
-                style={{ background: 'rgba(255,255,255,0.28)', border: '1px solid rgba(255,255,255,0.38)' }}
+                className="min-w-0 rounded-xl p-4"
+                style={{ background: 'rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.06)' }}
               >
                 <p className="mb-1 text-sm font-semibold">{item.title}</p>
-                <p className="break-words text-sm leading-relaxed text-[#1d1d1f]/62">{item.desc}</p>
+                <p className="break-words text-sm leading-relaxed text-[#1d1d1f]/55">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -143,11 +143,11 @@ export default function WhyUs() {
       <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6 sm:pb-20">
         <div className="grid gap-4 sm:grid-cols-2">
           <RevealCard delay={0}>
-            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#f07020]/90">The Kingdom Sites difference</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#0071e3]/70">The Kingdom Sites difference</p>
             <h3 className="mb-3 text-lg font-semibold tracking-tight sm:text-xl">
               South Asia costs. American quality.
             </h3>
-            <p className="text-sm leading-relaxed text-[#1d1d1f]/65">
+            <p className="text-sm leading-relaxed text-[#1d1d1f]/60">
               We live and serve in South Asia, where the cost of living is a
               fraction of the US — which means I can offer premium, American-standard
               development at a price most church budgets can actually handle — without
@@ -156,11 +156,11 @@ export default function WhyUs() {
           </RevealCard>
 
           <RevealCard delay={100}>
-            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#f07020]/90">Cultural fluency</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#0071e3]/70">Cultural fluency</p>
             <h3 className="mb-3 text-lg font-semibold tracking-tight sm:text-xl">
               I understand your church.
             </h3>
-            <p className="text-sm leading-relaxed text-[#1d1d1f]/65">
+            <p className="text-sm leading-relaxed text-[#1d1d1f]/60">
               I grew up in American evangelical culture and understand how churches
               communicate, what matters to your congregation, and what visitors need
               to see. I write copy, choose layouts, and think through your site the
@@ -174,11 +174,11 @@ export default function WhyUs() {
       <section className="mx-auto max-w-6xl px-4 pb-12 sm:px-6 sm:pb-20">
         <RevealCard>
           <div className="mx-auto max-w-2xl text-center">
-            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#f07020]/90">A partnership with eternal stakes</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[#0071e3]/70">A partnership with eternal stakes</p>
             <h2 className="mb-4 text-xl font-semibold tracking-tight sm:text-2xl lg:text-3xl">
               Your church empowers ours.
             </h2>
-            <p className="text-sm leading-relaxed text-[#1d1d1f]/65 sm:text-base">
+            <p className="text-sm leading-relaxed text-[#1d1d1f]/60 sm:text-base">
               When you commission a site, you're not just investing in your ministry —
               you're directly funding our family's church-planting work among unreached
               peoples in South Asia. Your church grows its online presence, and the gospel
@@ -193,7 +193,7 @@ export default function WhyUs() {
       <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6 sm:pb-28">
         <div className="mb-6 text-center">
           <h2 className="text-xl font-semibold tracking-tight sm:text-2xl lg:text-3xl">Who we work with.</h2>
-          <p className="mt-3 text-sm leading-relaxed text-[#1d1d1f]/60">
+          <p className="mt-3 text-sm leading-relaxed text-[#1d1d1f]/55">
             We collaborate with evangelical Christians across all denominations who hold the
             Bible as the literally inerrant Word of God.
           </p>
@@ -215,7 +215,7 @@ export default function WhyUs() {
           ].map((item, i) => (
             <RevealCard key={item.title} delay={i * 90}>
               <h3 className="mb-2 text-sm font-semibold tracking-tight">{item.title}</h3>
-              <p className="text-sm leading-relaxed text-[#1d1d1f]/62">{item.desc}</p>
+              <p className="text-sm leading-relaxed text-[#1d1d1f]/55">{item.desc}</p>
             </RevealCard>
           ))}
         </div>
@@ -223,7 +223,7 @@ export default function WhyUs() {
         <div className="mt-10 text-center">
           <button
             onClick={() => document.dispatchEvent(new CustomEvent('open-contact-modal'))}
-            className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#f07020] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 active:brightness-90"
+            className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#0071e3] px-7 py-3.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-95 active:brightness-90"
           >
             Start a conversation
           </button>

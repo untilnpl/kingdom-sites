@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   const profileFallback =
@@ -33,10 +34,6 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-4 pb-14 pt-14 sm:px-6 sm:pb-20 sm:pt-20">
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-xs font-medium text-[#1d1d1f]/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#0071e3]" />
-              $499 flat rate — or overhaul
-            </p>
             <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
               Professional Websites that support Kingdom work in the most unreached places.
             </h1>
@@ -74,6 +71,14 @@ export default function Home() {
                   }}
                 />
               </div>
+              <div className="mt-4 text-center">
+                <Link
+                  to="/about"
+                  className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/25 px-5 py-2.5 text-sm font-medium text-[#1d1d1f]/80 backdrop-blur-sm transition hover:bg-white/40"
+                >
+                  About Us
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +91,7 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-              Built like a premium product.
+              Built premium.
             </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-[#1d1d1f]/70 sm:text-lg">
               American website level quality with unbeatable prices. Direct
@@ -101,8 +106,8 @@ export default function Home() {
                 desc: 'We believe God has given us work as a way to glorify Him and serve others. We would love to help your ministry achieve its tech goals for the glory of God.',
               },
               {
-                title: '$499 flat rate — or overhaul',
-                desc: 'South Asia costs of living mean we can offer American-standard development at a price your church budget can handle — no retainers, no surprises.',
+                title: '$499 flat rate build — or overhaul',
+                desc: 'South Asia costs of living mean we can offer American-standard development at a price your church budget can handle — no surprises.',
               },
               {
                 title: '$50 / month — your personal IT support',
@@ -140,7 +145,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-3 max-w-4xl mx-auto">
+        <div className="grid gap-5 sm:grid-cols-2 max-w-2xl mx-auto">
           {/* Website Build */}
           <div className="glass rounded-3xl p-7 flex flex-col">
             <p className="text-xs font-medium uppercase tracking-widest text-[#0071e3]/80 mb-3">One-time</p>
@@ -155,8 +160,8 @@ export default function Home() {
                 'Fully handed off — you own it',
                 'Direct personal communication throughout',
               ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/70">
-                  <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-[#0071e3]/15 text-[#0071e3] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/60">
+                  <span className="mt-0.5 shrink-0 text-[#0071e3] font-medium">✓</span>
                   {f}
                 </li>
               ))}
@@ -171,7 +176,7 @@ export default function Home() {
 
           {/* Care plan */}
           <div className="glass rounded-3xl p-7 flex flex-col relative overflow-hidden">
-            <div className="absolute top-4 right-4 rounded-full bg-[#0071e3] px-3 py-1 text-[10px] font-semibold text-white">
+            <div className="absolute top-4 right-4 rounded-full border border-black/10 bg-white/70 px-3 py-1 text-[10px] font-medium text-[#1d1d1f]/60">
               First month free
             </div>
             <p className="text-xs font-medium uppercase tracking-widest text-[#0071e3]/80 mb-3">Monthly</p>
@@ -187,8 +192,8 @@ export default function Home() {
                 'Your personal website IT support',
                 'Cancel any time',
               ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/70">
-                  <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-[#0071e3]/15 text-[#0071e3] flex items-center justify-center text-[10px] font-bold">✓</span>
+                <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/60">
+                  <span className="mt-0.5 shrink-0 text-[#0071e3] font-medium">✓</span>
                   {f}
                 </li>
               ))}
@@ -201,36 +206,6 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Custom App */}
-          <div className="glass rounded-3xl p-7 flex flex-col relative overflow-hidden">
-            <div className="absolute top-4 right-4 rounded-full bg-[#1d1d1f] px-3 py-1 text-[10px] font-semibold text-white">
-              App + Custom Features
-            </div>
-            <p className="text-xs font-medium uppercase tracking-widest text-[#0071e3]/80 mb-3">One-time</p>
-            <div className="flex items-end gap-1 mb-1">
-              <span className="text-4xl font-semibold tracking-tight">Quote Needed</span>
-            </div>
-            <p className="text-sm font-medium mb-4">Custom App Build</p>
-            <ul className="grid gap-2 mb-6 flex-1">
-              {[
-                'Full custom web or mobile app',
-                'Built to your exact specifications',
-                'Direct communication throughout',
-                'Fully handed off — you own it',
-              ].map(f => (
-                <li key={f} className="flex items-start gap-2 text-sm text-[#1d1d1f]/70">
-                  <span className="mt-0.5 h-4 w-4 shrink-0 rounded-full bg-[#0071e3]/15 text-[#0071e3] flex items-center justify-center text-[10px] font-bold">✓</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <button
-              onClick={() => document.dispatchEvent(new CustomEvent('open-contact-modal'))}
-              className="w-full cursor-pointer rounded-full border border-[#1d1d1f]/30 py-3 text-center text-sm font-semibold text-[#1d1d1f] transition hover:bg-[#1d1d1f] hover:text-white"
-            >
-              Let's talk!
-            </button>
-          </div>
         </div>
 
       </section>

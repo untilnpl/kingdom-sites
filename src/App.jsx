@@ -16,9 +16,9 @@ const NAV_LINKS = [
 
 // Defined once at module level so the object reference is stable across renders.
 const GLASS_HEADER = {
-  background: 'rgba(220, 235, 255, 0.07)',
-  backdropFilter: 'blur(40px) saturate(180%)',
-  WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+  background: 'rgba(232, 238, 247, 0.85)',
+  backdropFilter: 'blur(20px) saturate(130%)',
+  WebkitBackdropFilter: 'blur(20px) saturate(130%)',
 }
 
 function MenuIcon() {
@@ -233,28 +233,28 @@ function ContactModal({ onClose }) {
   const iframeRef = useRef(null)
 
   return (
-    // Clicking the backdrop (the darkened overlay) closes the modal.
-    // e.target === e.currentTarget ensures clicks on the modal card itself don't close it.
     <div
-      className="fixed inset-0 z-[100] flex items-end justify-end p-4 sm:items-center sm:justify-center"
-      style={{ background: 'rgba(0,0,0,0.22)', backdropFilter: 'blur(6px)' }}
+      className="fixed inset-0 z-[100] flex items-end justify-center p-3 sm:items-center sm:p-4"
+      style={{ background: 'rgba(0,0,0,0.50)' }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
+      {/* Solid dark card — full contrast, no frosting, no transparency confusion */}
       <div
-        className="w-full max-w-md rounded-3xl p-7"
+        className="flex w-full max-w-md flex-col rounded-2xl"
         style={{
-          background: 'rgba(245,235,220,0.28)',
-          backdropFilter: 'blur(56px) saturate(200%)',
-          WebkitBackdropFilter: 'blur(56px) saturate(200%)',
-          border: '1px solid rgba(255,255,255,0.22)',
-          boxShadow: '0 8px 40px rgba(0,0,0,0.12), inset 0 0.5px 0 rgba(255,255,255,0.70)',
+          maxHeight: '90dvh',
+          background: '#1a1f2e',
+          border: '1px solid rgba(255,255,255,0.08)',
+          boxShadow: '0 24px 64px rgba(0,0,0,0.40)',
         }}
       >
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-base font-semibold tracking-tight">Get in touch</h2>
+        {/* Header — always visible, never clipped */}
+        <div className="flex shrink-0 items-center justify-between border-b border-white/8 px-6 py-4">
+          <h2 className="text-sm font-semibold tracking-tight text-white">Get in touch</h2>
           <button
             onClick={onClose}
-            className="flex h-7 w-7 items-center justify-center rounded-full border border-white/30 bg-white/20 text-[#1d1d1f]/50 transition hover:bg-white/35"
+            className="flex h-7 w-7 items-center justify-center rounded-full text-white/40 transition hover:bg-white/10 hover:text-white/70"
+            aria-label="Close"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
@@ -262,89 +262,86 @@ function ContactModal({ onClose }) {
           </button>
         </div>
 
-        {/* Hidden iframe — form submits into this so the page doesn't navigate away.
-            The onLoad fires when formsubmit.co responds, telling us the send succeeded. */}
-        <iframe ref={iframeRef} name="contact_modal_iframe" title="contact-modal" className="hidden"
-          onLoad={() => {
-            if (!pending) return
-            setPending(false); setSubmitting(false); setSubmitted(true)
-            formRef.current?.reset()
-          }}
-        />
+        {/* Scrollable form area */}
+        <div className="overflow-y-auto overscroll-contain px-6 py-5">
 
-        {submitted ? (
-          <div className="rounded-2xl border border-[#0071e3]/20 bg-[#0071e3]/8 p-5 text-center">
-            <p className="text-sm font-semibold">Message sent!</p>
-            <p className="mt-1 text-sm text-[#1d1d1f]/60">I'll be in touch as soon as I can.</p>
-            <button onClick={() => setSubmitted(false)} className="mt-3 text-xs text-[#0071e3]">Send another</button>
-          </div>
-        ) : (
-          <form
-            ref={formRef}
-            // formsubmit.co is a no-backend email relay — it forwards POST data to our inbox.
-            // The email address here is the recipient. Captcha is disabled because
-            // the honeypot field below catches bots without annoying real users.
-            action="https://formsubmit.co/untilnpl@gmail.com"
-            method="POST"
-            target="contact_modal_iframe"
-            className="grid gap-4"
-            onSubmit={() => { setSubmitting(true); setPending(true) }}
-          >
-            <input type="hidden" name="_subject" value={`New inquiry: ${topic}`} />
-            <input type="hidden" name="_template" value="table" />
-            {/* Captcha off — we use a honeypot instead (see _honey field below). */}
-            <input type="hidden" name="_captcha" value="false" />
-            {/* Honeypot: hidden from real users but bots fill it in automatically.
-                formsubmit.co discards any submission where _honey is non-empty. */}
-            <input type="text" name="_honey" className="hidden" tabIndex="-1" autoComplete="off" />
-            <input type="hidden" name="topic" value={topic} />
+          <iframe ref={iframeRef} name="contact_modal_iframe" title="contact-modal" className="hidden"
+            onLoad={() => {
+              if (!pending) return
+              setPending(false); setSubmitting(false); setSubmitted(true)
+              formRef.current?.reset()
+            }}
+          />
 
-            <div className="grid gap-1.5 text-sm">
-              <span className="font-medium text-[#1d1d1f]/75">Topic</span>
-              <div className="flex flex-col gap-2">
-                {TOPICS.map((t) => (
-                  <label key={t} className={`flex cursor-pointer items-center gap-3 rounded-2xl border px-4 py-2.5 text-sm transition ${
-                    topic === t
-                      ? 'border-[#0071e3]/30 bg-[#0071e3]/10 text-white'
-                      : 'border-white/30 bg-white/15 text-white/70 hover:bg-white/25'
-                  }`}>
-                    {/* sr-only hides the native radio input visually while keeping it accessible. */}
-                    <input type="radio" name="topic_select" value={t} checked={topic === t}
-                      onChange={() => setTopic(t)} className="sr-only" />
-                    <span className={`h-2 w-2 shrink-0 rounded-full ${topic === t ? 'bg-[#0071e3]' : 'bg-[#1d1d1f]/20'}`} />
-                    {t}
-                  </label>
-                ))}
-              </div>
+          {submitted ? (
+            <div className="rounded-xl border border-[#0071e3]/30 bg-[#0071e3]/15 p-5 text-center">
+              <p className="text-sm font-semibold text-white">Message sent!</p>
+              <p className="mt-1 text-sm text-white/55">I'll be in touch as soon as I can.</p>
+              <button onClick={() => setSubmitted(false)} className="mt-3 text-xs text-[#0071e3]">Send another</button>
             </div>
-
-            <label className="grid gap-1.5 text-sm">
-              <span className="font-medium text-[#1d1d1f]/75">Name</span>
-              {/* autoComplete hints help password managers and browsers fill the form safely. */}
-              <input required name="name" type="text" placeholder="Your name" autoComplete="name"
-                className="h-11 rounded-2xl border border-white/30 bg-white/20 px-4 text-sm backdrop-blur-sm outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4 placeholder:text-[#1d1d1f]/35" />
-            </label>
-
-            <label className="grid gap-1.5 text-sm">
-              <span className="font-medium text-[#1d1d1f]/75">Email</span>
-              <input required name="email" type="email" placeholder="you@example.com" autoComplete="email"
-                className="h-11 rounded-2xl border border-white/30 bg-white/20 px-4 text-sm backdrop-blur-sm outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4 placeholder:text-[#1d1d1f]/35" />
-            </label>
-
-            <label className="grid gap-1.5 text-sm">
-              <span className="font-medium text-[#1d1d1f]/75">Message</span>
-              <textarea required name="message" rows={3} placeholder="Tell us a bit more…"
-                className="w-full resize-none rounded-2xl border border-white/30 bg-white/20 px-4 py-3 text-sm backdrop-blur-sm outline-none ring-[#0071e3]/20 transition focus:bg-white/35 focus:ring-4 placeholder:text-[#1d1d1f]/35" />
-            </label>
-
-            {/* disabled during submission prevents double-sends. */}
-            <button type="submit" disabled={submitting}
-              className="h-11 rounded-full bg-[#0071e3] text-sm font-semibold text-white shadow-sm transition hover:brightness-95 disabled:opacity-60"
+          ) : (
+            <form
+              ref={formRef}
+              action="https://formsubmit.co/untilnpl@gmail.com"
+              method="POST"
+              target="contact_modal_iframe"
+              className="grid gap-4"
+              onSubmit={() => { setSubmitting(true); setPending(true) }}
             >
-              {submitting ? 'Sending…' : 'Send message'}
-            </button>
-          </form>
-        )}
+              <input type="hidden" name="_subject" value={`New inquiry: ${topic}`} />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="text" name="_honey" className="hidden" tabIndex="-1" autoComplete="off" />
+              <input type="hidden" name="topic" value={topic} />
+
+              {/* Topic selector */}
+              <div className="grid gap-1.5">
+                <span className="text-xs font-medium uppercase tracking-widest text-white/40">Topic</span>
+                <div className="flex flex-col gap-1.5">
+                  {TOPICS.map((t) => (
+                    <label key={t} className={`flex cursor-pointer items-center gap-3 rounded-xl border px-4 py-2.5 text-sm transition ${
+                      topic === t
+                        ? 'border-[#0071e3]/50 bg-[#0071e3]/20 text-white'
+                        : 'border-white/8 bg-white/5 text-white/55 hover:bg-white/10 hover:text-white/80'
+                    }`}>
+                      <input type="radio" name="topic_select" value={t} checked={topic === t}
+                        onChange={() => setTopic(t)} className="sr-only" />
+                      <span className={`h-1.5 w-1.5 shrink-0 rounded-full transition ${topic === t ? 'bg-[#0071e3]' : 'bg-white/20'}`} />
+                      {t}
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Name */}
+              <label className="grid gap-1.5">
+                <span className="text-xs font-medium uppercase tracking-widest text-white/40">Name</span>
+                <input required name="name" type="text" placeholder="Your name" autoComplete="name"
+                  className="h-11 rounded-xl border border-white/10 bg-white/8 px-4 text-sm text-white outline-none placeholder:text-white/25 transition focus:border-[#0071e3]/60 focus:bg-white/12" />
+              </label>
+
+              {/* Email */}
+              <label className="grid gap-1.5">
+                <span className="text-xs font-medium uppercase tracking-widest text-white/40">Email</span>
+                <input required name="email" type="email" placeholder="you@example.com" autoComplete="email"
+                  className="h-11 rounded-xl border border-white/10 bg-white/8 px-4 text-sm text-white outline-none placeholder:text-white/25 transition focus:border-[#0071e3]/60 focus:bg-white/12" />
+              </label>
+
+              {/* Message */}
+              <label className="grid gap-1.5">
+                <span className="text-xs font-medium uppercase tracking-widest text-white/40">Message</span>
+                <textarea required name="message" rows={3} placeholder="Tell us a bit more…"
+                  className="resize-none rounded-xl border border-white/10 bg-white/8 px-4 py-3 text-sm text-white outline-none placeholder:text-white/25 transition focus:border-[#0071e3]/60 focus:bg-white/12" />
+              </label>
+
+              <button type="submit" disabled={submitting}
+                className="h-11 rounded-xl bg-[#0071e3] text-sm font-semibold text-white transition hover:bg-[#0071e3]/90 disabled:opacity-50"
+              >
+                {submitting ? 'Sending…' : 'Send message'}
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </div>
   )
@@ -384,8 +381,8 @@ function AppShell() {
       {!onDashboard && (
         <button
           onClick={() => setContactOpen(true)}
-          className="fixed bottom-6 right-6 z-50 flex cursor-pointer items-center gap-2 rounded-full bg-[#0071e3] px-5 py-3 text-sm font-semibold text-white shadow-lg transition hover:brightness-95 active:brightness-90"
-          style={{ boxShadow: '0 4px 20px rgba(0,113,227,0.35)' }}
+          className="fixed bottom-6 right-6 z-50 flex cursor-pointer items-center gap-2 rounded-full bg-[#0071e3] px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-95 active:brightness-90"
+          style={{ boxShadow: '0 2px 8px rgba(0,113,227,0.25)' }}
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 4h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7l-4 3V6a2 2 0 0 1 2-2z"/>
