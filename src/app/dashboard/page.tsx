@@ -595,14 +595,14 @@ export default function Dashboard() {
           <div className="grid gap-4">
             <div className="rounded-2xl border border-black/8 bg-white/60 p-5">
               <p className="text-xs font-medium uppercase tracking-widest text-[#1d1d1f]/40 mb-1">One-time</p>
-              <p className="text-lg font-semibold tracking-tight mb-0.5">$799 — Website Build</p>
+              <p className="text-lg font-semibold tracking-tight mb-0.5">$499 — Website Build</p>
               <p className="text-sm text-[#1d1d1f]/55 mb-4">Custom-designed site, fully handed off.</p>
               <a
-                href="https://paypal.me/thomasklein690/799"
+                href="https://paypal.me/thomasklein690/499"
                 target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-full bg-[#0071e3] px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-95"
               >
-                Pay via PayPal — $799
+                Pay via PayPal — $499
               </a>
             </div>
 
