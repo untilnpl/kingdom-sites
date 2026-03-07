@@ -44,7 +44,7 @@ export default function Home() {
               <div className="absolute -inset-4 -z-10 rounded-[28px] bg-[#0071e3]/10 blur-2xl" />
               <div className="glass overflow-hidden rounded-3xl">
                 <Image
-                  src="/Photos/couple.jpeg"
+                  src="/Photos/hero.jpeg"
                   alt="Photo"
                   width={960}
                   height={1280}
