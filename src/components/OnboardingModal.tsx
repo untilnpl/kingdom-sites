@@ -36,6 +36,7 @@ export default function OnboardingModal({ user, onComplete }: { user: User; onCo
     if (!techType) { setError('Please select what you need.'); return }
     setError('')
     setSaving(true)
+    if (!supabase) { setError('Auth not configured.'); setSaving(false); return }
     const { error: err } = await supabase.from('profiles').upsert({
       id: user.id,
       email: user.email,

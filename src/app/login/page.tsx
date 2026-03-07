@@ -21,7 +21,7 @@ export default function Login() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
+    supabase?.auth.getSession().then(({ data }) => {
       if (data.session) router.replace('/dashboard')
     })
     inputRef.current?.focus()
@@ -29,6 +29,7 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!supabase) { setError('Auth not configured.'); return }
     setError('')
     setSending(true)
     const { error: err } = await supabase.auth.signInWithOtp({

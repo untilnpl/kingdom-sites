@@ -59,6 +59,7 @@ export default function Header() {
   }, [pathname])
 
   useEffect(() => {
+    if (!supabase) return
     supabase.auth.getSession().then(({ data }) => setUser(data.session?.user ?? null))
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null)
