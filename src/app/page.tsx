@@ -46,9 +46,10 @@ export default function Home() {
                 <Image
                   src="/Photos/couple.jpeg"
                   alt="Photo"
-                  width={900}
-                  height={900}
-                  className="aspect-square w-full object-cover"
+                  width={960}
+                  height={1280}
+                  quality={95}
+                  className="w-full object-cover"
                   priority
                   fetchPriority="high"
                   sizes="(max-width: 1024px) 100vw, 500px"
