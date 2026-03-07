@@ -12,13 +12,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const onDashboard = pathname === '/dashboard'
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [pathname])
+
+  useEffect(() => {
     const handler = () => setContactOpen(true)
     document.addEventListener('open-contact-modal', handler)
     return () => document.removeEventListener('open-contact-modal', handler)
   }, [])
 
   return (
-    <div className="min-h-dvh text-[#1d1d1f]">
+    <div className="min-h-screen min-h-dvh text-[#1d1d1f]">
       <Header />
       <main>{children}</main>
       <Footer />

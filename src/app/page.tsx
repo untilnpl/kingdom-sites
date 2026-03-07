@@ -17,11 +17,10 @@ export default function Home() {
         <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
             <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
-              Professional Websites that support Kingdom work in the most unreached places.
+              Professional Websites that support mission work around the world. 
             </h1>
             <p className="mt-5 max-w-2xl text-pretty text-base leading-relaxed text-[#1d1d1f]/75 sm:text-lg">
               American-standard development at unbeatable prices.
-              Supporting mission work.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -84,15 +83,15 @@ export default function Home() {
             {[
               {
                 title: 'Built for Christians, by Christians',
-                desc: 'We believe God has given us work as a way to glorify Him and serve others. We would love to help your ministry achieve its tech goals for the glory of God.',
+                desc: 'We believe our work is a way to glorify God and serve others. We\'d love to help your ministry achieve its tech goals.',
               },
               {
                 title: '$499 flat rate build — or overhaul',
-                desc: 'South Asia costs of living mean we can offer American-standard development at a price your church budget can handle — no surprises.',
+                desc: 'South Asia costs of living mean American-standard development at a price your budget can handle — no surprises.',
               },
               {
                 title: '$50 / month — your personal IT support',
-                desc: 'Church event coming up? Need a page updated? Want to add a new feature? Just message me. Unlimited updates and maintenance included for $50/month — forever.',
+                desc: 'Event coming up? Need a page updated or a new feature? Just message me. Unlimited updates and maintenance for $50/month.',
               },
               {
                 title: 'Direct mission impact',
@@ -160,7 +159,7 @@ export default function Home() {
             <ul className="grid gap-2 mb-6 flex-1">
               {[
                 'Unlimited updates — just message me',
-                'Church events, new pages, copy changes',
+                'Events, new pages, copy changes',
                 'Your personal website IT support',
                 'Cancel any time',
               ].map(f => (

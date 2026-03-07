@@ -14,7 +14,7 @@ export default function PrivacyPage() {
           <p>
             We may collect personal information such as your name, email address, and payment
             details when you purchase products or contact us. Payments are processed securely
-            through Lemon Squeezy, our merchant of record.
+            through Lemon Squeezy.
           </p>
         </div>
 
