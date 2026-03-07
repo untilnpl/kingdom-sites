@@ -5,3 +5,4 @@ const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 // By removing "| null", you tell the whole app that supabase is always ready.
 export const supabase = createClient(url, key)
+console.log("Checking URL:", process.env.NEXT_PUBLIC_SUPABASE_URL ? "Exists" : "Missing");
