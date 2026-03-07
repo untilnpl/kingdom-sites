@@ -51,6 +51,7 @@ export default function Home() {
                   height={900}
                   className="aspect-square w-full object-cover"
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 1024px) 100vw, 500px"
                 />
               </div>
