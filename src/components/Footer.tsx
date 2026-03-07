@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Footer() {
   return (
     <footer
@@ -11,6 +13,14 @@ export default function Footer() {
       <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-10 text-center text-xs text-[#1d1d1f]/55 sm:px-6">
         <p>Kingdom Sites — premium sites with mission impact.</p>
         <p>© {new Date().getFullYear()}</p>
+        <div className="flex justify-center gap-4">
+          <Link href="/privacy" className="hover:text-[#1d1d1f] transition-colors">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-[#1d1d1f] transition-colors">
+            Terms of Service
+          </Link>
+        </div>
       </div>
     </footer>
   )
